@@ -24,12 +24,15 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
-app.get('/api/:date', (req, res) => {
+app.get('/api/:date?', (req, res) => {
   const dateParam = req.params.date;
   let date;
 
-  // Check if dateParam is a valid Unix timestamp
-  if (!isNaN(dateParam)) {
+  // Check if dateParam is provided
+  if (!dateParam) {
+    date = new Date(); // Use current date if no parameter is provided
+  } else if (!isNaN(dateParam)) {
+    // Check if dateParam is a valid Unix timestamp
     date = new Date(parseInt(dateParam));
   } else {
     // Parse date string
